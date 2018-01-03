@@ -3,7 +3,7 @@ package br.com.badiale.tweetmood.twitter;
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
 
-public class TwiiterSearchResultMetadata {
+public class TwitterSearchResultMetadata {
     @SerializedName("max_id")
     private Long maxId;
 

@@ -38,7 +38,7 @@ public class TweetListActivity extends BaseActivity {
         recyclerView.setAdapter(tweetAdapter);
 
         viewModel = ViewModelProviders.of(this).get(TweetListViewModel.class);
-        viewModel.getStatuses().observe(this, twiiterSearchResultStatuses -> tweetAdapter.update(twiiterSearchResultStatuses));
+        viewModel.getStatuses().observe(this, twitterSearchResultStatuses -> tweetAdapter.update(twitterSearchResultStatuses));
 
         if (BuildConfig.DEBUG) {
             viewModel.searchUser("ifood");

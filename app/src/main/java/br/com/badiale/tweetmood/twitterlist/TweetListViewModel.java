@@ -6,12 +6,12 @@ import android.arch.lifecycle.ViewModel;
 
 import java.util.List;
 
-import br.com.badiale.tweetmood.twitter.TwiiterSearchResultStatus;
+import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import br.com.badiale.tweetmood.twitter.TwitterService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 class TweetListViewModel extends ViewModel {
-    private MutableLiveData<List<TwiiterSearchResultStatus>> statuses = new MutableLiveData<>();
+    private MutableLiveData<List<TwitterSearchResultStatus>> statuses = new MutableLiveData<>();
     private final TwitterService twitterService;
 
     TweetListViewModel() {
@@ -19,13 +19,13 @@ class TweetListViewModel extends ViewModel {
 
     }
 
-    LiveData<List<TwiiterSearchResultStatus>> getStatuses() {
+    LiveData<List<TwitterSearchResultStatus>> getStatuses() {
         return statuses;
     }
 
     void searchUser(String userId) {
         twitterService.getUserTimeline(userId)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(twiiterSearchResult -> statuses.setValue(twiiterSearchResult.getStatuses()));
+                .subscribe(twitterSearchResult -> statuses.setValue(twitterSearchResult.getStatuses()));
     }
 }

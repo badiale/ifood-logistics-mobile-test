@@ -5,25 +5,25 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class TwiiterSearchResult {
-    private List<TwiiterSearchResultStatus> statuses;
+public class TwitterSearchResult {
+    private List<TwitterSearchResultStatus> statuses;
 
     @SerializedName("search_metadata")
-    private TwiiterSearchResultMetadata metadata;
+    private TwitterSearchResultMetadata metadata;
 
-    public List<TwiiterSearchResultStatus> getStatuses() {
+    public List<TwitterSearchResultStatus> getStatuses() {
         return statuses;
     }
 
-    public void setStatuses(final List<TwiiterSearchResultStatus> statuses) {
+    public void setStatuses(final List<TwitterSearchResultStatus> statuses) {
         this.statuses = statuses;
     }
 
-    public TwiiterSearchResultMetadata getMetadata() {
+    public TwitterSearchResultMetadata getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(final TwiiterSearchResultMetadata metadata) {
+    public void setMetadata(final TwitterSearchResultMetadata metadata) {
         this.metadata = metadata;
     }
 

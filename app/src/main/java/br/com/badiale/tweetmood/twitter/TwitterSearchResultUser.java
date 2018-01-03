@@ -3,7 +3,7 @@ package br.com.badiale.tweetmood.twitter;
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
 
-public class TwiiterSearchResultUser {
+public class TwitterSearchResultUser {
     private String name;
 
     @SerializedName("screen_name")

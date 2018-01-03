@@ -22,7 +22,7 @@ public class TwitterServiceTest {
     @Test
     public void shouldReturnUsersTimeline() {
         final String userIdToSearch = "badiale";
-        final TwiiterSearchResult result = subject.getUserTimeline(userIdToSearch).blockingFirst();
+        final TwitterSearchResult result = subject.getUserTimeline(userIdToSearch).blockingFirst();
         assertNotNull(result);
         assertThat(result.getStatuses(), not(empty()));
         assertThat(result.getStatuses().get(0).getUser().getScreenName(), equalTo(userIdToSearch));

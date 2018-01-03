@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class TwitterService {
     private static final TwitterService INSTANCE = new TwitterService();
 
-    private final TwiiterApi api;
+    private final TwitterApi api;
 
     public static TwitterService getInstance() {
         return INSTANCE;
@@ -23,15 +23,15 @@ public class TwitterService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        this.api = retrofit.create(TwiiterApi.class);
+        this.api = retrofit.create(TwitterApi.class);
     }
 
     @VisibleForTesting
     Observable<TwitterAuthenticationResult> authenticate() {
-        return Requests.enqueue(api.oauthToken("Basic " + BuildConfig.TWIITER_API_KEY, "client_credentials"));
+        return Requests.enqueue(api.oauthToken("Basic " + BuildConfig.TWITTER_API_KEY, "client_credentials"));
     }
 
-    public Observable<TwiiterSearchResult> getUserTimeline(String userId) {
+    public Observable<TwitterSearchResult> getUserTimeline(String userId) {
         return authenticate()
                 .map(TwitterAuthenticationResult::getAccessToken)
                 .map(token -> api.searchTweets("Bearer " + token, "from:" + userId))

@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.badiale.tweetmood.R;
-import br.com.badiale.tweetmood.twitter.TwiiterSearchResultStatus;
+import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 
 class TweetAdapter extends RecyclerView.Adapter<TweetViewHolder> {
-    private List<TwiiterSearchResultStatus> tweets = new ArrayList<>();
+    private List<TwitterSearchResultStatus> tweets = new ArrayList<>();
 
-    void append(List<TwiiterSearchResultStatus> tweets) {
+    void append(List<TwitterSearchResultStatus> tweets) {
         this.tweets.addAll(tweets);
         notifyDataSetChanged();
     }
 
-    void update(List<TwiiterSearchResultStatus> tweets) {
+    void update(List<TwitterSearchResultStatus> tweets) {
         this.tweets.clear();
         append(tweets);
     }

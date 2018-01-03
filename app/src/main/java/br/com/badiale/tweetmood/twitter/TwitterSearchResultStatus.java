@@ -3,19 +3,19 @@ package br.com.badiale.tweetmood.twitter;
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
 
-public class TwiiterSearchResultStatus {
-    private TwiiterSearchResultUser user;
+public class TwitterSearchResultStatus {
+    private TwitterSearchResultUser user;
 
     private String text;
 
     @SerializedName("created_at")
     private String createdAt;
 
-    public TwiiterSearchResultUser getUser() {
+    public TwitterSearchResultUser getUser() {
         return user;
     }
 
-    public void setUser(final TwiiterSearchResultUser user) {
+    public void setUser(final TwitterSearchResultUser user) {
         this.user = user;
     }
 

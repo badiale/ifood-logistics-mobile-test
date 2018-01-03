@@ -9,14 +9,14 @@ import com.squareup.picasso.Picasso;
 
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.eventbus.EventBusUtils;
-import br.com.badiale.tweetmood.twitter.TwiiterSearchResultStatus;
+import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 class TweetViewHolder extends RecyclerView.ViewHolder {
 
-    private TwiiterSearchResultStatus tweet;
+    private TwitterSearchResultStatus tweet;
 
     @BindView(R.id.tweet_profile_picture)
     ImageView profilePicture;
@@ -35,7 +35,7 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    void setTweet(final TwiiterSearchResultStatus tweet) {
+    void setTweet(final TwitterSearchResultStatus tweet) {
         this.tweet = tweet;
         updatePicture();
         userName.setText(tweet.getUser().getName());

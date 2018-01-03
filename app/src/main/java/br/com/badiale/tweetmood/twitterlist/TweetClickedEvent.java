@@ -2,16 +2,16 @@ package br.com.badiale.tweetmood.twitterlist;
 
 import com.google.common.base.MoreObjects;
 
-import br.com.badiale.tweetmood.twitter.TwiiterSearchResultStatus;
+import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 
 class TweetClickedEvent {
-    private TwiiterSearchResultStatus tweet;
+    private TwitterSearchResultStatus tweet;
 
-    TweetClickedEvent(final TwiiterSearchResultStatus tweet) {
+    TweetClickedEvent(final TwitterSearchResultStatus tweet) {
         this.tweet = tweet;
     }
 
-    TwiiterSearchResultStatus getTweet() {
+    TwitterSearchResultStatus getTweet() {
         return tweet;
     }
 
