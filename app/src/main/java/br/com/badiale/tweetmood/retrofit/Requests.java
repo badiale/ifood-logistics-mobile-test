@@ -15,7 +15,7 @@ public class Requests {
                     emmiter.onComplete();
                     return;
                 }
-                emmiter.onError(new RequestFailedException(response));
+                emmiter.onError(new RequestFailedException(call.request(), response));
             }
 
             @Override

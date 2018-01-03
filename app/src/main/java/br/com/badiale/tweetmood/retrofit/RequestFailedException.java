@@ -2,13 +2,14 @@ package br.com.badiale.tweetmood.retrofit;
 
 import java.io.IOException;
 
+import okhttp3.Request;
 import retrofit2.Response;
 
 public class RequestFailedException extends RuntimeException {
     private Response<?> response;
 
-    RequestFailedException(final Response<?> response) {
-        super("Request failed with " + response.code() + "(" + response.message() + "): " + toString(response));
+    RequestFailedException(final Request request, final Response<?> response) {
+        super("Request to " + request.url() + " failed with " + response.code() + "(" + response.message() + "): " + toString(response));
         this.response = response;
     }
 
@@ -21,9 +22,5 @@ public class RequestFailedException extends RuntimeException {
         } catch (IOException e) {
             return "<Failed to get body string>";
         }
-    }
-
-    public Response<?> getResponse() {
-        return response;
     }
 }
