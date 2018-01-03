@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_item_margin">6dp</dimen>
+    <dimen name="card_item_radius">2dp</dimen>
+    <dimen name="card_item_elevation">2dp</dimen>
+    <dimen name="card_item_padding">6dp</dimen>
+    <dimen name="user_image_size">40dp</dimen>
+    <dimen name="text_default_padding">6dp</dimen>
+</resources>
