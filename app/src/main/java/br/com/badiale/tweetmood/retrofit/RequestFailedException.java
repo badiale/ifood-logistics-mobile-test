@@ -6,11 +6,8 @@ import okhttp3.Request;
 import retrofit2.Response;
 
 public class RequestFailedException extends RuntimeException {
-    private Response<?> response;
-
     RequestFailedException(final Request request, final Response<?> response) {
         super("Request to " + request.url() + " failed with " + response.code() + "(" + response.message() + "): " + toString(response));
-        this.response = response;
     }
 
     private static String toString(Response<?> response) {
