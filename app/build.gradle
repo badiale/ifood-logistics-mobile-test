@@ -19,6 +19,7 @@ android {
 
     buildTypes.each {
         it.buildConfigField 'String', 'TWIITER_API_KEY', twiiterApiBearerCredentials
+        it.buildConfigField 'String', 'GOOGLE_CLOUD_API_KEY', googleCloudApiKey
     }
     compileOptions {
         targetCompatibility 1.8
