@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/activityBackgroundColor"
     android:orientation="vertical"
-    tools:context="br.com.badiale.tweetmood.twitterlist.TweetListActivity">
+    tools:context="br.com.badiale.tweetmood.tweet.TweetListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

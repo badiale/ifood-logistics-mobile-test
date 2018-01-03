@@ -1,4 +1,4 @@
-package br.com.badiale.tweetmood.twitterlist;
+package br.com.badiale.tweetmood.tweet;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

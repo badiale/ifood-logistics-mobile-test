@@ -1,4 +1,4 @@
-package br.com.badiale.tweetmood.twitterlist;
+package br.com.badiale.tweetmood.tweet;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
