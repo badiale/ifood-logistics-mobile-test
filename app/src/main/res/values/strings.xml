@@ -4,4 +4,6 @@
     <string name="error_loading_tweet">Error loading tweets</string>
     <string name="error_analysing_tweet">Error analysing tweet</string>
     <string name="empty_tweet_list">There is nothing here!\nTry a new search!</string>
+    <string name="twitter_date_format">EEE MMM DD HH:mm:ss Z yyyy</string>
+    <string name="date_time_format">MM/dd/yyyy HH:mm</string>
 </resources>

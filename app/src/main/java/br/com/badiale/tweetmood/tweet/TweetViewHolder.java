@@ -7,7 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.eventbus.EventBusUtils;
@@ -56,7 +62,27 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void updateDate() {
-        date.setText(tweet.getCreatedAt());
+        final Date tweetDate = parseDate();
+        date.setText(formatDate(tweetDate));
+    }
+
+    private Date parseDate() {
+        final String twitterDateFormat = itemView.getContext().getString(R.string.twitter_date_format);
+        try {
+            return new SimpleDateFormat(twitterDateFormat, Locale.US).parse(tweet.getCreatedAt());
+        } catch (ParseException e) {
+            Crashlytics.log("Failed to parse date " + tweet.getCreatedAt());
+            Crashlytics.logException(e);
+            return null;
+        }
+    }
+
+    private String formatDate(final Date tweetDate) {
+        if (tweetDate == null) {
+            return tweet.getCreatedAt();
+        }
+        final String dateFormat = itemView.getContext().getString(R.string.date_time_format);
+        return new SimpleDateFormat(dateFormat).format(tweetDate);
     }
 
     private void updateSentiment() {
