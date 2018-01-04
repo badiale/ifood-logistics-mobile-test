@@ -26,10 +26,10 @@ public class NaturalLanguageService {
     public Observable<Sentiment> analyse(String text) {
         return Requests.enqueue(api.analyse(new NaturalLanguageRequest(text)))
                 .map(response -> {
-                    if (response.getDocumentSentiment().getScore() > 0.5) {
+                    if (response.getDocumentSentiment().getScore() > 0.3) {
                         return Sentiment.HAPPY;
                     }
-                    if (response.getDocumentSentiment().getScore() < -0.5) {
+                    if (response.getDocumentSentiment().getScore() < -0.3) {
                         return Sentiment.SAD;
                     }
                     return Sentiment.NEUTRAL;

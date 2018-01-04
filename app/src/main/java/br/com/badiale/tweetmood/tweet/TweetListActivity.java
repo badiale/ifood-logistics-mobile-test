@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -51,7 +50,7 @@ public class TweetListActivity extends BaseActivity {
     }
 
     @Subscribe
-    public void expandTweet(TweetClickedEvent ev) {
-        Toast.makeText(this, String.valueOf(ev.getTweet()), Toast.LENGTH_SHORT).show();
+    public void analyseTweet(TweetClickedEvent ev) {
+        viewModel.analyse(ev.getTweet());
     }
 }

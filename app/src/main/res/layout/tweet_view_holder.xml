@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/card_item_margin"
-    android:background="@color/card_item_background"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
@@ -15,8 +14,10 @@
     app:cardElevation="@dimen/card_item_elevation">
 
     <LinearLayout
+        android:id="@+id/tweet_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/card_item_background"
         android:padding="@dimen/card_item_padding">
 
         <ImageView
@@ -34,17 +35,17 @@
 
             <TextView
                 android:id="@+id/tweet_user_name"
+                style="@style/tweet_user_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:text="User name"
-                style="@style/tweet_user_name"/>
+                tools:text="User name"/>
 
             <TextView
                 android:id="@+id/tweet_text"
+                style="@style/tweet_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum"
-                style="@style/tweet_content"/>
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi non quis exercitationem culpa nesciunt nihil aut nostrum"/>
 
             <TextView
                 android:id="@+id/tweet_date"

@@ -3,6 +3,8 @@ package br.com.badiale.tweetmood.twitter;
 import com.google.common.base.MoreObjects;
 import com.google.gson.annotations.SerializedName;
 
+import br.com.badiale.tweetmood.naturallanguage.Sentiment;
+
 public class TwitterSearchResultStatus {
     private TwitterSearchResultUser user;
 
@@ -10,6 +12,8 @@ public class TwitterSearchResultStatus {
 
     @SerializedName("created_at")
     private String createdAt;
+
+    private Sentiment sentiment;
 
     public TwitterSearchResultUser getUser() {
         return user;
@@ -35,12 +39,21 @@ public class TwitterSearchResultStatus {
         this.createdAt = createdAt;
     }
 
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(final Sentiment sentiment) {
+        this.sentiment = sentiment;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("user", user)
                 .add("text", text)
                 .add("createdAt", createdAt)
+                .add("sentiment", sentiment)
                 .toString();
     }
 }

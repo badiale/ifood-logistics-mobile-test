@@ -1,7 +1,9 @@
 package br.com.badiale.tweetmood.tweet;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +19,9 @@ import butterknife.OnClick;
 class TweetViewHolder extends RecyclerView.ViewHolder {
 
     private TwitterSearchResultStatus tweet;
+
+    @BindView(R.id.tweet_layout)
+    ViewGroup layout;
 
     @BindView(R.id.tweet_profile_picture)
     ImageView profilePicture;
@@ -41,6 +46,7 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
         userName.setText(tweet.getUser().getName());
         text.setText(tweet.getText());
         updateDate();
+        updateSentiment();
     }
 
     private void updatePicture() {
@@ -51,6 +57,28 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
 
     private void updateDate() {
         date.setText(tweet.getCreatedAt());
+    }
+
+    private void updateSentiment() {
+        if (tweet.getSentiment() == null) {
+            layout.setBackground(null);
+            return;
+        }
+
+        final Resources resources = itemView.getContext().getResources();
+        switch (tweet.getSentiment()) {
+            case HAPPY:
+                layout.setBackground(resources.getDrawable(R.drawable.happy_background));
+                break;
+            case NEUTRAL:
+                layout.setBackground(resources.getDrawable(R.drawable.neutral_background));
+                break;
+            case SAD:
+                layout.setBackground(resources.getDrawable(R.drawable.sad_background));
+                break;
+            default:
+                throw new IllegalStateException(tweet.getSentiment() + " not configured");
+        }
     }
 
     @OnClick(R.id.tweet_view_card)
