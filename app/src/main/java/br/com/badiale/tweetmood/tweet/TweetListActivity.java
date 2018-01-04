@@ -4,7 +4,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.EditText;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -12,7 +14,6 @@ import br.com.badiale.tweetmood.BuildConfig;
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.activity.BaseActivity;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class TweetListActivity extends BaseActivity {
 
@@ -21,9 +22,6 @@ public class TweetListActivity extends BaseActivity {
 
     @BindView(R.id.tweet_list_recycler_view)
     RecyclerView recyclerView;
-
-    @BindView(R.id.tweet_list_search_text)
-    EditText searchText;
 
     public TweetListActivity() {
         super(R.layout.activity_tweet_list);
@@ -44,13 +42,32 @@ public class TweetListActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.tweet_list_search_button)
-    public void search() {
-        viewModel.searchUser(searchText.getText().toString());
-    }
-
     @Subscribe
     public void analyseTweet(TweetClickedEvent ev) {
         viewModel.analyse(ev.getTweet());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.tweet_list_menu, menu);
+        configureSearchView(menu.findItem(R.id.tweet_list_search));
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void configureSearchView(MenuItem item) {
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(final String query) {
+                viewModel.searchUser(query.trim());
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                return false;
+            }
+        });
+
     }
 }

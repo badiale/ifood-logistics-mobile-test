@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TweetMood</string>
+    <string name="tweet_list_username_search_hint">User name</string>
 </resources>
