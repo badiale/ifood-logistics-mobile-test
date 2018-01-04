@@ -14,19 +14,17 @@ public class TwitterServiceTest {
 
     @Test
     public void shouldReturnAuthentication() {
-        final TwitterAuthenticationResult result = subject.authenticate().blockingFirst();
-        assertNotNull(result);
-        assertThat(result.getTokenType(), equalTo("bearer"));
-        assertNotNull(result.getAccessToken());
+        final String token = subject.authenticate().blockingFirst();
+        assertNotNull(token);
     }
 
     @Test
     public void shouldReturnUsersTimeline() {
-        final String userIdToSearch = "badiale";
+        final String userIdToSearch = "iFood";
         final TwitterSearchResult result = subject.searchUserTweets(userIdToSearch).blockingFirst();
         assertNotNull(result);
         assertThat(result.getStatuses(), not(empty()));
-        assertThat(result.getStatuses().get(0).getUser().getScreenName(), equalTo(userIdToSearch));
+        assertThat(result.getStatuses().get(0).getUser().getName(), equalTo(userIdToSearch));
     }
 
     @Test

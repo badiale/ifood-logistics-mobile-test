@@ -16,6 +16,7 @@ public class TwitterService {
     private static final TwitterService INSTANCE = new TwitterService();
 
     private final TwitterApi api;
+    private String token = null;
 
     public static TwitterService getInstance() {
         return INSTANCE;
@@ -31,20 +32,22 @@ public class TwitterService {
     }
 
     @VisibleForTesting
-    Observable<TwitterAuthenticationResult> authenticate() {
-        return Requests.enqueue(api.oauthToken("Basic " + BuildConfig.TWITTER_API_KEY, "client_credentials"));
+    Observable<String> authenticate() {
+        if (token == null) {
+            return Requests.enqueue(api.oauthToken("Basic " + BuildConfig.TWITTER_API_KEY, "client_credentials"))
+                    .map(TwitterAuthenticationResult::getAccessToken);
+        }
+        return Observable.just(token);
     }
 
     public Observable<TwitterSearchResult> searchUserTweets(String userId) {
         return authenticate()
-                .map(TwitterAuthenticationResult::getAccessToken)
                 .map(token -> api.searchTweets("Bearer " + token, "from:" + userId))
                 .flatMap(Requests::enqueue);
     }
 
     public Observable<TwitterSearchResult> searchTweetsByQueryString(String queryString) {
         return authenticate()
-                .map(TwitterAuthenticationResult::getAccessToken)
                 .map(token -> api.getTweetsByQuery("Bearer " + token, parseQueryMap(queryString)))
                 .flatMap(Requests::enqueue);
     }
