@@ -2,11 +2,14 @@ package br.com.badiale.tweetmood.tweet;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -20,8 +23,14 @@ public class TweetListActivity extends BaseActivity {
     private TweetAdapter tweetAdapter = new TweetAdapter();
     private TweetListViewModel viewModel;
 
+    @BindView(R.id.tweet_list_view)
+    ViewGroup mainView;
+
     @BindView(R.id.tweet_list_recycler_view)
     RecyclerView recyclerView;
+
+    @BindView(R.id.tweet_list_swipe_refresh)
+    SwipeRefreshLayout refreshLayout;
 
     public TweetListActivity() {
         super(R.layout.activity_tweet_list);
@@ -31,11 +40,14 @@ public class TweetListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        viewModel = ViewModelProviders.of(this).get(TweetListViewModel.class);
+        viewModel.getStatuses().observe(this, tweetAdapter::update);
+        viewModel.isLoading().observe(this, refreshLayout::setRefreshing);
+        viewModel.getError().observe(this, this::showError);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(tweetAdapter);
-
-        viewModel = ViewModelProviders.of(this).get(TweetListViewModel.class);
-        viewModel.getStatuses().observe(this, twitterSearchResultStatuses -> tweetAdapter.update(twitterSearchResultStatuses));
+        refreshLayout.setOnRefreshListener(viewModel::refresh);
 
         if (BuildConfig.DEBUG) {
             viewModel.searchUser("ifood");
@@ -45,6 +57,13 @@ public class TweetListActivity extends BaseActivity {
     @Subscribe
     public void analyseTweet(TweetClickedEvent ev) {
         viewModel.analyse(ev.getTweet());
+    }
+
+    private void showError(final Integer stringId) {
+        if (stringId == null) {
+            return;
+        }
+        Snackbar.make(mainView, stringId, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
