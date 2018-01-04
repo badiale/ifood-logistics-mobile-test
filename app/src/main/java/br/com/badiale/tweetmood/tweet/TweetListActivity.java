@@ -10,7 +10,6 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -27,9 +26,6 @@ public class TweetListActivity extends BaseActivity {
 
     private TweetAdapter tweetAdapter = new TweetAdapter();
     private TweetListViewModel viewModel;
-
-    @BindView(R.id.tweet_list_view)
-    ViewGroup mainView;
 
     @BindView(R.id.tweet_list_empty_text)
     TextView emptyText;
@@ -65,7 +61,7 @@ public class TweetListActivity extends BaseActivity {
     private void updateStatus(final List<TwitterSearchResultStatus> twitterSearchResultStatuses) {
         final boolean hasTweets = !twitterSearchResultStatuses.isEmpty();
         emptyText.setVisibility(hasTweets ? View.GONE : View.VISIBLE);
-        refreshLayout.setVisibility(!hasTweets ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(!hasTweets ? View.GONE : View.VISIBLE);
         tweetAdapter.update(twitterSearchResultStatuses);
     }
 
@@ -78,7 +74,7 @@ public class TweetListActivity extends BaseActivity {
         if (stringId == null) {
             return;
         }
-        Snackbar.make(mainView, stringId, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(recyclerView, stringId, Snackbar.LENGTH_LONG).show();
     }
 
     @Override

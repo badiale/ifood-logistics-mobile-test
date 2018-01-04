@@ -9,6 +9,12 @@ public class TwitterSearchResultMetadata {
 
     private Integer count;
 
+    @SerializedName("refresh_url")
+    private String refreshUrl;
+
+    @SerializedName("next_results")
+    private String nextResults;
+
     public Long getMaxId() {
         return maxId;
     }
@@ -25,11 +31,29 @@ public class TwitterSearchResultMetadata {
         this.count = count;
     }
 
+    public String getRefreshUrl() {
+        return refreshUrl;
+    }
+
+    public void setRefreshUrl(final String refreshUrl) {
+        this.refreshUrl = refreshUrl;
+    }
+
+    public String getNextResults() {
+        return nextResults;
+    }
+
+    public void setNextResults(final String nextResults) {
+        this.nextResults = nextResults;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("maxId", maxId)
                 .add("count", count)
+                .add("refreshUrl", refreshUrl)
+                .add("nextResults", nextResults)
                 .toString();
     }
 }

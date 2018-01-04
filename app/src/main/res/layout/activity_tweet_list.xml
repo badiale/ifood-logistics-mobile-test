@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/tweet_list_view"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/tweet_list_swipe_refresh"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,26 +9,24 @@
     android:orientation="vertical"
     tools:context="br.com.badiale.tweetmood.tweet.TweetListActivity">
 
-    <TextView
-        android:id="@+id/tweet_list_empty_text"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/empty_tweets_background"
-        android:gravity="center"
-        android:text="@string/empty_tweet_list"
-        android:textSize="36sp"/>
+        android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/tweet_list_swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        <TextView
+            android:id="@+id/tweet_list_empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/empty_tweets_background"
+            android:gravity="center"
+            android:text="@string/empty_tweet_list"
+            android:textSize="36sp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/tweet_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             tools:listitem="@layout/tweet_view_holder"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

@@ -7,7 +7,7 @@ import retrofit2.Response;
 
 public class Requests {
     public static <T> Observable<T> enqueue(final Call<T> call) {
-        return Observable.create(emmiter -> call.enqueue(new Callback<T>() {
+        return Observable.<T> create(emmiter -> call.enqueue(new Callback<T>() {
             @Override
             public void onResponse(final Call<T> call, final Response<T> response) {
                 if (response.isSuccessful()) {
