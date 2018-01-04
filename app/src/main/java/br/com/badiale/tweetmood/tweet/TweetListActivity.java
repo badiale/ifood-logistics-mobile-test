@@ -9,13 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 import br.com.badiale.tweetmood.BuildConfig;
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.activity.BaseActivity;
+import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import butterknife.BindView;
 
 public class TweetListActivity extends BaseActivity {
@@ -26,11 +31,14 @@ public class TweetListActivity extends BaseActivity {
     @BindView(R.id.tweet_list_view)
     ViewGroup mainView;
 
-    @BindView(R.id.tweet_list_recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.tweet_list_empty_text)
+    TextView emptyText;
 
     @BindView(R.id.tweet_list_swipe_refresh)
     SwipeRefreshLayout refreshLayout;
+
+    @BindView(R.id.tweet_list_recycler_view)
+    RecyclerView recyclerView;
 
     public TweetListActivity() {
         super(R.layout.activity_tweet_list);
@@ -41,7 +49,7 @@ public class TweetListActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(TweetListViewModel.class);
-        viewModel.getStatuses().observe(this, tweetAdapter::update);
+        viewModel.getStatuses().observe(this, this::updateStatus);
         viewModel.isLoading().observe(this, refreshLayout::setRefreshing);
         viewModel.getError().observe(this, this::showError);
 
@@ -52,6 +60,13 @@ public class TweetListActivity extends BaseActivity {
         if (BuildConfig.DEBUG) {
             viewModel.searchUser("ifood");
         }
+    }
+
+    private void updateStatus(final List<TwitterSearchResultStatus> twitterSearchResultStatuses) {
+        final boolean hasTweets = !twitterSearchResultStatuses.isEmpty();
+        emptyText.setVisibility(hasTweets ? View.GONE : View.VISIBLE);
+        refreshLayout.setVisibility(!hasTweets ? View.GONE : View.VISIBLE);
+        tweetAdapter.update(twitterSearchResultStatuses);
     }
 
     @Subscribe

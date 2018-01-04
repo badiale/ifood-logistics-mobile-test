@@ -3,4 +3,5 @@
     <string name="tweet_list_username_search_hint">User name</string>
     <string name="error_loading_tweet">Error loading tweets</string>
     <string name="error_analysing_tweet">Error analysing tweet</string>
+    <string name="empty_tweet_list">There is nothing here!\nTry a new search!</string>
 </resources>

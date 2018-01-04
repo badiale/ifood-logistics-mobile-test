@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:gravity="top|end">
+        <rotate
+            android:drawable="@drawable/happy_face"
+            android:fromDegrees="25"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="90"/>
+    </item>
+
+    <item android:gravity="center|start">
+        <rotate
+            android:drawable="@drawable/neutral_face"
+            android:fromDegrees="-25"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="90"/>
+    </item>
+
+    <item android:gravity="bottom|end">
+        <rotate
+            android:drawable="@drawable/sad_face"
+            android:fromDegrees="25"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:toDegrees="90"/>
+    </item>
+</layer-list>
