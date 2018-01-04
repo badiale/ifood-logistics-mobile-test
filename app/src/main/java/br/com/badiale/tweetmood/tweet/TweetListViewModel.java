@@ -21,7 +21,7 @@ import br.com.badiale.tweetmood.twitter.TwitterService;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 
-class TweetListViewModel extends AndroidViewModel {
+public class TweetListViewModel extends AndroidViewModel {
     private final TwitterService twitterService;
     private final NaturalLanguageService naturalLanguageService;
     private final FirebaseAnalytics firebaseAnalytics;
@@ -34,7 +34,7 @@ class TweetListViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private MutableLiveData<Integer> error = new MutableLiveData<>();
 
-    TweetListViewModel(Application context) {
+    public TweetListViewModel(Application context) {
         super(context);
         twitterService = TwitterService.getInstance();
         naturalLanguageService = NaturalLanguageService.getInstance();
