@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -28,8 +30,8 @@ import br.com.badiale.tweetmood.twitter.TwitterService;
 public class TweetUpdaterJobService extends JobService {
     private static final String TAG = TweetUpdaterJobService.class.getSimpleName();
     private static final int NOTIFICATION_ID = 1;
-    public static final int WINDOW_START_MINUTES = 29 * 60;
-    public static final int WINDOW_END_MINUTES = 31 * 60;
+    public static final int WINDOW_START_SECONDS = 29 * 60;
+    public static final int WINDOW_END_SECONDS = 31 * 60;
 
     private PreferenceHelper preferenceHelper;
     private NotificationManager notificationManager;
@@ -43,7 +45,8 @@ public class TweetUpdaterJobService extends JobService {
                 .setRecurring(true)
                 .setConstraints(Constraint.ON_UNMETERED_NETWORK)
                 .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(WINDOW_START_MINUTES, WINDOW_END_MINUTES))
+                .setReplaceCurrent(true)
+                .setTrigger(Trigger.executionWindow(WINDOW_START_SECONDS, WINDOW_END_SECONDS))
                 .build());
     }
 
@@ -52,6 +55,7 @@ public class TweetUpdaterJobService extends JobService {
 
     @Override
     public boolean onStartJob(final JobParameters job) {
+        Crashlytics.log(Log.DEBUG, TAG, "Starting job service");
         final TwitterService twitterService = TwitterService.getInstance();
         preferenceHelper = PreferenceHelper.from(this);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
