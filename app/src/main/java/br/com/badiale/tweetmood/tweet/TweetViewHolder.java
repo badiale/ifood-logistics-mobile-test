@@ -2,13 +2,11 @@ package br.com.badiale.tweetmood.tweet;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
@@ -22,6 +20,7 @@ import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 class TweetViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = TweetViewHolder.class.getSimpleName();
@@ -81,8 +80,7 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
         try {
             return twitterDateFormatter.parse(tweet.getCreatedAt());
         } catch (ParseException e) {
-            Crashlytics.log(Log.WARN, TAG, "Failed to parse date " + tweet.getCreatedAt());
-            Crashlytics.logException(e);
+            Timber.w(e, "Failed to parse date '%s'", tweet.getCreatedAt());
             return null;
         }
     }

@@ -5,7 +5,6 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.common.collect.ImmutableList;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -20,6 +19,7 @@ import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import br.com.badiale.tweetmood.twitter.TwitterService;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 public class TweetListViewModel extends AndroidViewModel {
     private final TwitterService twitterService;
@@ -74,7 +74,7 @@ public class TweetListViewModel extends AndroidViewModel {
 
     private Consumer<Throwable> handleErrors(final int errorMessage) {
         return throwable -> {
-            Crashlytics.logException(throwable);
+            Timber.w(throwable, "Error loading feeds");
             error.setValue(errorMessage);
         };
     }

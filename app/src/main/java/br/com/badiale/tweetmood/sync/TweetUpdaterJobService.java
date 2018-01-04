@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
@@ -26,6 +24,7 @@ import br.com.badiale.tweetmood.tweet.TweetListActivity;
 import br.com.badiale.tweetmood.twitter.TwitterSearchResult;
 import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import br.com.badiale.tweetmood.twitter.TwitterService;
+import timber.log.Timber;
 
 public class TweetUpdaterJobService extends JobService {
     private static final String TAG = TweetUpdaterJobService.class.getSimpleName();
@@ -55,7 +54,7 @@ public class TweetUpdaterJobService extends JobService {
 
     @Override
     public boolean onStartJob(final JobParameters job) {
-        Crashlytics.log(Log.DEBUG, TAG, "Starting job service");
+        Timber.d("Starting job service");
         final TwitterService twitterService = TwitterService.getInstance();
         preferenceHelper = PreferenceHelper.from(this);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
