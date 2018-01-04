@@ -68,6 +68,7 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
     private void updatePicture() {
         Picasso.with(itemView.getContext())
                 .load(tweet.getUser().getProfileImageUrl())
+                .error(R.drawable.ic_person_black_24dp)
                 .into(profilePicture);
     }
 
