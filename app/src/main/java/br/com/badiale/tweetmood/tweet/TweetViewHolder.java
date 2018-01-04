@@ -2,6 +2,7 @@ package br.com.badiale.tweetmood.tweet;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +24,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 class TweetViewHolder extends RecyclerView.ViewHolder {
+    private static final String TAG = TweetViewHolder.class.getSimpleName();
+
+    private final SimpleDateFormat twitterDateFormatter;
+    private final SimpleDateFormat dateFormatter;
 
     private TwitterSearchResultStatus tweet;
 
@@ -44,6 +49,12 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
     TweetViewHolder(final View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+
+        final String twitterDateFormat = itemView.getContext().getString(R.string.twitter_date_format);
+        twitterDateFormatter = new SimpleDateFormat(twitterDateFormat, Locale.US);
+
+        final String dateFormat = itemView.getContext().getString(R.string.date_time_format);
+        dateFormatter = new SimpleDateFormat(dateFormat);
     }
 
     void setTweet(final TwitterSearchResultStatus tweet) {
@@ -67,11 +78,10 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
     }
 
     private Date parseDate() {
-        final String twitterDateFormat = itemView.getContext().getString(R.string.twitter_date_format);
         try {
-            return new SimpleDateFormat(twitterDateFormat, Locale.US).parse(tweet.getCreatedAt());
+            return twitterDateFormatter.parse(tweet.getCreatedAt());
         } catch (ParseException e) {
-            Crashlytics.log("Failed to parse date " + tweet.getCreatedAt());
+            Crashlytics.log(Log.WARN, TAG, "Failed to parse date " + tweet.getCreatedAt());
             Crashlytics.logException(e);
             return null;
         }
@@ -81,8 +91,7 @@ class TweetViewHolder extends RecyclerView.ViewHolder {
         if (tweetDate == null) {
             return tweet.getCreatedAt();
         }
-        final String dateFormat = itemView.getContext().getString(R.string.date_time_format);
-        return new SimpleDateFormat(dateFormat).format(tweetDate);
+        return dateFormatter.format(tweetDate);
     }
 
     private void updateSentiment() {
