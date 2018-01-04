@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "742802673869",
+    "firebase_url": "https://tweetmood-13383.firebaseio.com",
+    "project_id": "tweetmood-13383",
+    "storage_bucket": "tweetmood-13383.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742802673869:android:683243e2ad5c688a",
+        "android_client_info": {
+          "package_name": "br.com.badiale.tweetmood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "742802673869-57aujkbri472uv99utc0jsoalrtn8u31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.badiale.tweetmood",
+            "certificate_hash": "2f4b4e2d913acec05f7dabf0f0173272e0d7f360"
+          }
+        },
+        {
+          "client_id": "742802673869-okoo2no3p18vu0sae1rscmm8nq1qfu33.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHKchre8EKNWCug1Qh1uY9eMmzKfik0Qk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "742802673869-okoo2no3p18vu0sae1rscmm8nq1qfu33.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
