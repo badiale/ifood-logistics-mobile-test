@@ -9,10 +9,12 @@ import com.crashlytics.android.Crashlytics;
 import com.google.common.collect.ImmutableList;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.util.Collections;
 import java.util.List;
 
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.naturallanguage.NaturalLanguageService;
+import br.com.badiale.tweetmood.preference.PreferenceHelper;
 import br.com.badiale.tweetmood.twitter.TwitterSearchResult;
 import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import br.com.badiale.tweetmood.twitter.TwitterService;
@@ -23,6 +25,7 @@ class TweetListViewModel extends AndroidViewModel {
     private final TwitterService twitterService;
     private final NaturalLanguageService naturalLanguageService;
     private final FirebaseAnalytics firebaseAnalytics;
+    private final PreferenceHelper preferenceHelper;
 
     private TwitterSearchResult searchResult;
 
@@ -36,8 +39,16 @@ class TweetListViewModel extends AndroidViewModel {
         twitterService = TwitterService.getInstance();
         naturalLanguageService = NaturalLanguageService.getInstance();
         firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        preferenceHelper = PreferenceHelper.from(context);
 
         hasMorePages.setValue(false);
+        statuses.setValue(Collections.emptyList());
+        loading.setValue(false);
+
+        final String lastUser = preferenceHelper.getLastUser();
+        if (!lastUser.isEmpty()) {
+            searchUser(lastUser);
+        }
     }
 
     LiveData<List<TwitterSearchResultStatus>> getStatuses() {
@@ -52,7 +63,7 @@ class TweetListViewModel extends AndroidViewModel {
         return error;
     }
 
-    public LiveData<Boolean> hasMorePages() {
+    LiveData<Boolean> hasMorePages() {
         return hasMorePages;
     }
 
@@ -70,6 +81,7 @@ class TweetListViewModel extends AndroidViewModel {
 
     void searchUser(String userId) {
         firebaseAnalytics.logEvent("search_user", null);
+        preferenceHelper.setLastUser(userId);
         loading(twitterService.searchUserTweets(userId))
                 .subscribe(twitterSearchResult -> {
                     updateSearchResult(twitterSearchResult);
@@ -115,6 +127,7 @@ class TweetListViewModel extends AndroidViewModel {
 
     private void updateSearchResult(final TwitterSearchResult twitterSearchResult) {
         this.searchResult = twitterSearchResult;
+        preferenceHelper.setLastUpdateUrl(twitterSearchResult.getMetadata().getRefreshUrl());
         final boolean newValue = twitterSearchResult.getMetadata().getNextResults() != null;
         if (newValue != hasMorePages.getValue()) {
             hasMorePages.setValue(newValue);

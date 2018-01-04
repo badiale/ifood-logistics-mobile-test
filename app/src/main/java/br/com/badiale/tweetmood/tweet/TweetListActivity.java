@@ -16,7 +16,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
-import br.com.badiale.tweetmood.BuildConfig;
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.activity.BaseActivity;
 import br.com.badiale.tweetmood.infinitescroll.InfiniteScrollAdapter;
@@ -58,10 +57,6 @@ public class TweetListActivity extends BaseActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(infiniteScrollAdapter);
         refreshLayout.setOnRefreshListener(viewModel::refresh);
-
-        if (BuildConfig.DEBUG) {
-            viewModel.searchUser("ifood");
-        }
     }
 
     private void enableInfiniteScroll(final Boolean hasMorePages) {

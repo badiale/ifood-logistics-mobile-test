@@ -7,4 +7,8 @@
     <string name="twitter_date_format">EEE MMM DD HH:mm:ss Z yyyy</string>
     <string name="date_time_format">MM/dd/yyyy HH:mm</string>
     <string name="loading_more_tweets">Loading more tweets</string>
+    <string name="tweet_notification_title">%s tweeted!</string>
+    <string name="tweet_notification_content">Click and check out more!</string>
+    <string name="tweet_notification_content_count">and %d more</string>
+    <string name="tweet_notification_go_to_app">Open app</string>
 </resources>
