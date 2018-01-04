@@ -45,6 +45,11 @@ public class TweetListViewModel extends AndroidViewModel {
         statuses.setValue(Collections.emptyList());
         loading.setValue(false);
 
+        searchByLastUser();
+    }
+
+    private void searchByLastUser() {
+        firebaseAnalytics.logEvent("searchByLastUser", null);
         final String lastUser = preferenceHelper.getLastUser();
         if (!lastUser.isEmpty()) {
             searchUser(lastUser);
@@ -100,6 +105,10 @@ public class TweetListViewModel extends AndroidViewModel {
 
     void refresh() {
         firebaseAnalytics.logEvent("refresh", null);
+        if (searchResult == null) {
+            searchByLastUser();
+            return;
+        }
         loading(twitterService.searchTweetsByQueryString(searchResult.getMetadata().getRefreshUrl()))
                 .subscribe(twitterSearchResult -> {
                     updateSearchResult(twitterSearchResult);
