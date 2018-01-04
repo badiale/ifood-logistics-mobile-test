@@ -15,14 +15,10 @@ import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 class TweetAdapter extends RecyclerView.Adapter<TweetViewHolder> {
     private List<TwitterSearchResultStatus> tweets = new ArrayList<>();
 
-    void append(List<TwitterSearchResultStatus> tweets) {
-        this.tweets.addAll(tweets);
-        notifyDataSetChanged();
-    }
-
     void update(List<TwitterSearchResultStatus> tweets) {
         this.tweets.clear();
-        append(tweets);
+        this.tweets.addAll(tweets);
+        notifyDataSetChanged();
     }
 
     @Override

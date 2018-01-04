@@ -27,6 +27,7 @@ class TweetListViewModel extends AndroidViewModel {
     private TwitterSearchResult searchResult;
 
     private MutableLiveData<List<TwitterSearchResultStatus>> statuses = new MutableLiveData<>();
+    private MutableLiveData<Boolean> hasMorePages = new MutableLiveData<>();
     private MutableLiveData<Boolean> loading = new MutableLiveData<>();
     private MutableLiveData<Integer> error = new MutableLiveData<>();
 
@@ -35,6 +36,8 @@ class TweetListViewModel extends AndroidViewModel {
         twitterService = TwitterService.getInstance();
         naturalLanguageService = NaturalLanguageService.getInstance();
         firebaseAnalytics = FirebaseAnalytics.getInstance(context);
+
+        hasMorePages.setValue(false);
     }
 
     LiveData<List<TwitterSearchResultStatus>> getStatuses() {
@@ -47,6 +50,10 @@ class TweetListViewModel extends AndroidViewModel {
 
     LiveData<Integer> getError() {
         return error;
+    }
+
+    public LiveData<Boolean> hasMorePages() {
+        return hasMorePages;
     }
 
     private <T> Observable<T> loading(Observable<T> observable) {
@@ -65,7 +72,7 @@ class TweetListViewModel extends AndroidViewModel {
         firebaseAnalytics.logEvent("search_user", null);
         loading(twitterService.searchUserTweets(userId))
                 .subscribe(twitterSearchResult -> {
-                    this.searchResult = twitterSearchResult;
+                    updateSearchResult(twitterSearchResult);
                     statuses.setValue(twitterSearchResult.getStatuses());
                 }, handleErrors(R.string.error_loading_tweet));
     }
@@ -83,11 +90,34 @@ class TweetListViewModel extends AndroidViewModel {
         firebaseAnalytics.logEvent("refresh", null);
         loading(twitterService.searchTweetsByQueryString(searchResult.getMetadata().getRefreshUrl()))
                 .subscribe(twitterSearchResult -> {
-                    this.searchResult = twitterSearchResult;
+                    updateSearchResult(twitterSearchResult);
                     statuses.setValue(ImmutableList.<TwitterSearchResultStatus>builder()
                             .addAll(twitterSearchResult.getStatuses())
                             .addAll(statuses.getValue())
                             .build());
                 }, handleErrors(R.string.error_loading_tweet));
+    }
+
+    void loadNextPage() {
+        firebaseAnalytics.logEvent("loadNextPage", null);
+        if (loading.getValue()) {
+            return;
+        }
+        loading(twitterService.searchTweetsByQueryString(searchResult.getMetadata().getNextResults()))
+                .subscribe(twitterSearchResult -> {
+                    updateSearchResult(twitterSearchResult);
+                    statuses.setValue(ImmutableList.<TwitterSearchResultStatus>builder()
+                            .addAll(statuses.getValue())
+                            .addAll(twitterSearchResult.getStatuses())
+                            .build());
+                }, handleErrors(R.string.error_loading_tweet));
+    }
+
+    private void updateSearchResult(final TwitterSearchResult twitterSearchResult) {
+        this.searchResult = twitterSearchResult;
+        final boolean newValue = twitterSearchResult.getMetadata().getNextResults() != null;
+        if (newValue != hasMorePages.getValue()) {
+            hasMorePages.setValue(newValue);
+        }
     }
 }

@@ -6,4 +6,5 @@
     <string name="empty_tweet_list">There is nothing here!\nTry a new search!</string>
     <string name="twitter_date_format">EEE MMM DD HH:mm:ss Z yyyy</string>
     <string name="date_time_format">MM/dd/yyyy HH:mm</string>
+    <string name="loading_more_tweets">Loading more tweets</string>
 </resources>

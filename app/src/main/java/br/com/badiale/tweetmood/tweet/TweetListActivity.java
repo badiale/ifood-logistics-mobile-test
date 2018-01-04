@@ -19,12 +19,17 @@ import java.util.List;
 import br.com.badiale.tweetmood.BuildConfig;
 import br.com.badiale.tweetmood.R;
 import br.com.badiale.tweetmood.activity.BaseActivity;
+import br.com.badiale.tweetmood.infinitescroll.InfiniteScrollAdapter;
+import br.com.badiale.tweetmood.infinitescroll.LastItemVisibleReachedEvent;
+import br.com.badiale.tweetmood.infinitescroll.LastItemVisibleScrollListener;
 import br.com.badiale.tweetmood.twitter.TwitterSearchResultStatus;
 import butterknife.BindView;
 
 public class TweetListActivity extends BaseActivity {
 
     private TweetAdapter tweetAdapter = new TweetAdapter();
+    private InfiniteScrollAdapter<TweetViewHolder> infiniteScrollAdapter = new InfiniteScrollAdapter<>(tweetAdapter);
+
     private TweetListViewModel viewModel;
 
     @BindView(R.id.tweet_list_empty_text)
@@ -48,14 +53,24 @@ public class TweetListActivity extends BaseActivity {
         viewModel.getStatuses().observe(this, this::updateStatus);
         viewModel.isLoading().observe(this, refreshLayout::setRefreshing);
         viewModel.getError().observe(this, this::showError);
+        viewModel.hasMorePages().observe(this, this::enableInfiniteScroll);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(tweetAdapter);
+        recyclerView.setAdapter(infiniteScrollAdapter);
         refreshLayout.setOnRefreshListener(viewModel::refresh);
 
         if (BuildConfig.DEBUG) {
             viewModel.searchUser("ifood");
         }
+    }
+
+    private void enableInfiniteScroll(final Boolean hasMorePages) {
+        if (hasMorePages) {
+            recyclerView.addOnScrollListener(LastItemVisibleScrollListener.getInstance());
+        } else {
+            recyclerView.removeOnScrollListener(LastItemVisibleScrollListener.getInstance());
+        }
+        infiniteScrollAdapter.setLoading(hasMorePages);
     }
 
     private void updateStatus(final List<TwitterSearchResultStatus> twitterSearchResultStatuses) {
@@ -75,6 +90,11 @@ public class TweetListActivity extends BaseActivity {
             return;
         }
         Snackbar.make(recyclerView, stringId, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Subscribe
+    public void loadMoreResults(LastItemVisibleReachedEvent e) {
+        viewModel.loadNextPage();
     }
 
     @Override
