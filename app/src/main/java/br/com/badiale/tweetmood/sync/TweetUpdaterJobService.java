@@ -64,6 +64,9 @@ public class TweetUpdaterJobService extends JobService {
                     notifyNewTweets(twitterSearchResult);
                     preferenceHelper.setLastUpdateUrl(twitterSearchResult.getMetadata().getRefreshUrl());
                     jobFinished(job, true);
+                }, (t) -> {
+                    Timber.w(t, "error updating job service");
+                    jobFinished(job, true);
                 });
         return true;
     }
